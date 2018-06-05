@@ -29,8 +29,9 @@ any other input), and determine how well the tSNE and PCA space approximate
 the orignal manifold.
 }
 \examples{
+library(dplyr)
 k.titration <- c(10, 100)
-cells <- data.frame(dqvis_cells, dqvis_tsne)
+cells <- bind_cols(dqvis_cells, dqvis_tsne)
 tsne_names <- names(dqvis_tsne)
 ComparisonPipeline(cells, dqvis_surface_markers, tsne_names, k.titration)
 }

@@ -18,5 +18,5 @@ A tibble of cells by PC1 and PC2
 Wrapper for 2-dimensional PCA
 }
 \examples{
-RunPca(dqvis_cells, dqvis_surface)
+RunPca(dqvis_cells[1:1000,], dqvis_surface_markers)
 }

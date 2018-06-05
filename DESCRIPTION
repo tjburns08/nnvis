@@ -19,5 +19,6 @@ Imports: Sconify,
     magrittr,
     Rtsne,
     stats,
-    tibble
+    tibble,
+    dplyr
 RoxygenNote: 6.0.1

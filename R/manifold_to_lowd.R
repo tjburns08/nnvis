@@ -7,6 +7,7 @@
 #' @import Rtsne
 #' @importFrom stats prcomp
 #' @import tibble
+#' @importFrom dplyr bind_cols
 
 #' @title Compare Neighborhoods
 #' @description Calculates the sum of the union of each cell's KNN, one of
@@ -44,8 +45,9 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' @return A tibble of cells by k values, where each value is a given cell's
 #' local fidelity relative to the k value of interst.
 #' @examples
+#' library(dplyr)
 #' k.titration <- c(10, 100)
-#' cells <- data.frame(dqvis_cells, dqvis_tsne)
+#' cells <- bind_cols(dqvis_cells, dqvis_tsne)
 #' tsne_names <- names(dqvis_tsne)
 #' ComparisonPipeline(cells, dqvis_surface_markers, tsne_names, k.titration)
 #' @export
@@ -78,7 +80,7 @@ ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
 #' @param input Vector of markers to be considered as input for the PCA method
 #' @return A tibble of cells by PC1 and PC2
 #' @examples
-#' RunPca(dqvis_cells, dqvis_surface)
+#' RunPca(dqvis_cells[1:1000,], dqvis_surface_markers)
 #' @export
 RunPca <- function(cells, input) {
     pca <- prcomp(x = cells[,input])$x[,1:2] %>% as.tibble()
@@ -92,7 +94,7 @@ RunPca <- function(cells, input) {
 #' @param perp The perplexity for t-SNE. Set to the CyTOF default of 30
 #' @return A tibble of cells by t-SNE1 and t-SNE2
 #' @examples
-#' RunTsne(dqvis_cells, dqvis_surface)
+#' RunTsne(dqvis_cells[1:1000,], dqvis_surface_markers)
 #' @export
 RunTsne <- function(cells, input, perp = 30) {
     result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE)$Y %>% as.tibble()
