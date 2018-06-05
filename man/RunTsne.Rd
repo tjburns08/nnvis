@@ -20,8 +20,5 @@ A tibble of cells by t-SNE1 and t-SNE2
 Wrapper for 2-dimensional t-SNE
 }
 \examples{
-data(wand.il7, package = "Sconify")
-data(markers, package = "Sconify")
-input <- markers[[1]]
-RunTsne(wand.il7, input)
+RunTsne(dqvis_cells, dqvis_surface)
 }

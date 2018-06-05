@@ -30,9 +30,7 @@ the orignal manifold.
 }
 \examples{
 k.titration <- c(10, 100)
-data(wand.final, package = "Sconify")
-data(markers, package = "Sconify")
-cells <- wand.final
-input <- markers[[1]]
-ComparisonPipeline(cells, input, c("bh-SNE1", "bh-SNE2"), k.titration)
+cells <- bind_cols(dqvis_cells, dqvis_tsne)
+tsne_names <- names(dqvis_tsne)
+ComparisonPipeline(dqvis_cells, dqvis_surface_markers, tsne_names, k.titration)
 }

@@ -18,8 +18,5 @@ A tibble of cells by PC1 and PC2
 Wrapper for 2-dimensional PCA
 }
 \examples{
-data(wand.il7, package = "Sconify")
-data(markers, package = "Sconify")
-input <- markers[[1]]
-RunPca(wand.il7, input)
+RunPca(dqvis_cells, dqvis_surface)
 }
