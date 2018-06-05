@@ -7,7 +7,7 @@ Maintainer: Tyler J Burns <burns.tyler@gmail.com>
 Description: This package examines the quality of a low-dimensional embedding
     by comparing the membership of each cell's k-nearest neighbors (KNN) in 
     original high dimensional marker space with this cell's KNN in the 
-    low-dimensional space. Comparisons can be visualized average fidelity
+    low-dimensional space. Comparisons can be visualized with average fidelity
     plots for different values of K, or the t-SNE maps themselves can be 
     colored by their own fidelity. 
 License: Artistic-2.0
