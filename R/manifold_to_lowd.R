@@ -6,6 +6,7 @@
 #' @importFrom magrittr "%>%"
 #' @import Rtsne
 #' @importFrom stats prcomp
+#' @import tibble
 
 #' @title Compare Neighborhoods
 #' @description Calculates the sum of the union of each cell's KNN, one of

@@ -14,5 +14,9 @@ License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5)
-Imports: Sconify
+Imports: Sconify,
+magrittr,
+Rtsne,
+stats,
+tibble
 RoxygenNote: 6.0.1
