@@ -45,10 +45,11 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' local fidelity relative to the k value of interst.
 #' @examples
 #' k.titration <- c(10, 100)
-#' ComparisonPipeline(wand.final,
-#' markers[[1]],
-#' c("bh-SNE1, "bh-SNE2),
-#' k.titration)
+#' data(wand.final, package = "Sconify")
+#' data(markers, package = "Sconify")
+#' cells <- wand.final
+#' input <- markers[[1]]
+#' ComparisonPipeline(cells, input, c("bh-SNE1", "bh-SNE2"), k.titration)
 #' @export
 ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
     master.result <- lapply(k.titration, function(i) {
@@ -56,7 +57,7 @@ ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
         message(i)
 
         # The KNN generation using the fnn command from Sconify
-        nn.orig <- Fnn(cell.df = cells, input.markers = surface, k = i)[[1]]
+        nn.orig <- Fnn(cell.df = cells, input.markers = input.markers, k = i)[[1]]
         nn.lowd <- Fnn(cell.df = cells, input.markers = lowd.names, k = i)[[1]]
 
         # Lowd compared to original manifold
@@ -78,6 +79,11 @@ ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
 #' @param cells Tibble of cells by features
 #' @param input Vector of markers to be considered as input for the PCA method
 #' @return A tibble of cells by PC1 and PC2
+#' @examples
+#' data(wand.il7, package = "Sconify")
+#' data(markers, package = "Sconify")
+#' input <- markers[[1]]
+#' RunPca(wand.il7, input)
 #' @export
 RunPca <- function(cells, input) {
     pca <- prcomp(x = cells[,input])$x[,1:2] %>% as.tibble()
@@ -90,6 +96,11 @@ RunPca <- function(cells, input) {
 #' @param input Vector of markers to be considerd as input for the t-SNE method
 #' @param perp The perplexity for t-SNE. Set to the CyTOF default of 30
 #' @return A tibble of cells by t-SNE1 and t-SNE2
+#' @examples
+#' data(wand.il7, package = "Sconify")
+#' data(markers, package = "Sconify")
+#' input <- markers[[1]]
+#' RunTsne(wand.il7, input)
 #' @export
 RunTsne <- function(cells, input, perp = 30) {
     result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE)$Y %>% as.tibble()

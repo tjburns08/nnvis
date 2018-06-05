@@ -30,8 +30,9 @@ the orignal manifold.
 }
 \examples{
 k.titration <- c(10, 100)
-ComparisonPipeline(wand.final,
-markers[[1]],
-c("bh-SNE1, "bh-SNE2),
-k.titration)
+data(wand.final, package = "Sconify")
+data(markers, package = "Sconify")
+cells <- wand.final
+input <- markers[[1]]
+ComparisonPipeline(cells, input, c("bh-SNE1", "bh-SNE2"), k.titration)
 }
