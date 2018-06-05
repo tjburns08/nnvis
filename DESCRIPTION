@@ -1,6 +1,7 @@
 Package: DQvis
 Type: Package
-Title: Visualize the quality of a low-dimensional embedding for mass cytometry datasets.
+Title: Visualize the quality of a low-dimensional embedding for mass 
+    cytometry datasets
 Version: 0.1.0
 Author: Tyler J Burns
 Maintainer: Tyler J Burns <burns.tyler@gmail.com>
