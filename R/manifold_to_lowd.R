@@ -2,7 +2,7 @@
 # Procedure: taking KNN of the original manifold, doing a low-d embedding,
 #   and taking KNN of that.
 
-#' @importFrom Sconify ProcessMultipleFiles Fnn
+#' @import Sconify
 #' @importFrom magrittr "%>%"
 #' @import Rtsne
 #' @importFrom stats prcomp
@@ -43,6 +43,12 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' half the dataset.
 #' @return A tibble of cells by k values, where each value is a given cell's
 #' local fidelity relative to the k value of interst.
+#' @examples
+#' k.titration <- c(10, 100)
+#' ComparisonPipeline(wand.final,
+#' markers[[1]],
+#' c("bh-SNE1, "bh-SNE2),
+#' k.titration)
 #' @export
 ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
     master.result <- lapply(k.titration, function(i) {

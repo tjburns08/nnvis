@@ -28,3 +28,10 @@ Loop to generate KNN from original space, and lowd space (or
 any other input), and determine how well the tSNE and PCA space approximate
 the orignal manifold.
 }
+\examples{
+k.titration <- c(10, 100)
+ComparisonPipeline(wand.final,
+markers[[1]],
+c("bh-SNE1, "bh-SNE2),
+k.titration)
+}

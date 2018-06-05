@@ -10,6 +10,8 @@ RunTsne(cells, input, perp = 30)
 \item{cells}{Tibble of cells by features}
 
 \item{input}{Vector of markers to be considerd as input for the t-SNE method}
+
+\item{perp}{The perplexity for t-SNE. Set to the CyTOF default of 30}
 }
 \value{
 A tibble of cells by t-SNE1 and t-SNE2
