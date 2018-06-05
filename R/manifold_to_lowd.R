@@ -45,11 +45,9 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' local fidelity relative to the k value of interst.
 #' @examples
 #' k.titration <- c(10, 100)
-#' data(wand.final, package = "Sconify")
-#' data(markers, package = "Sconify")
-#' cells <- wand.final
-#' input <- markers[[1]]
-#' ComparisonPipeline(cells, input, c("bh-SNE1", "bh-SNE2"), k.titration)
+#' cells <- bind_cols(dqvis_cells, dqvis_tsne)
+#' tsne_names <- names(dqvis_tsne)
+#' ComparisonPipeline(dqvis_cells, dqvis_surface_markers, tsne_names, k.titration)
 #' @export
 ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
     master.result <- lapply(k.titration, function(i) {
@@ -80,10 +78,7 @@ ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
 #' @param input Vector of markers to be considered as input for the PCA method
 #' @return A tibble of cells by PC1 and PC2
 #' @examples
-#' data(wand.il7, package = "Sconify")
-#' data(markers, package = "Sconify")
-#' input <- markers[[1]]
-#' RunPca(wand.il7, input)
+#' RunPca(dqvis_cells, dqvis_surface)
 #' @export
 RunPca <- function(cells, input) {
     pca <- prcomp(x = cells[,input])$x[,1:2] %>% as.tibble()
@@ -97,10 +92,7 @@ RunPca <- function(cells, input) {
 #' @param perp The perplexity for t-SNE. Set to the CyTOF default of 30
 #' @return A tibble of cells by t-SNE1 and t-SNE2
 #' @examples
-#' data(wand.il7, package = "Sconify")
-#' data(markers, package = "Sconify")
-#' input <- markers[[1]]
-#' RunTsne(wand.il7, input)
+#' RunTsne(dqvis_cells, dqvis_surface)
 #' @export
 RunTsne <- function(cells, input, perp = 30) {
     result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE)$Y %>% as.tibble()
