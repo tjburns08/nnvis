@@ -4,6 +4,8 @@
 
 #' @importFrom Sconify ProcessMultipleFiles Fnn
 #' @importFrom magrittr "%>%"
+#' @import Rtsne
+#' @importFrom stats prcomp
 
 #' @title Compare Neighborhoods
 #' @description Calculates the sum of the union of each cell's KNN, one of
@@ -62,5 +64,28 @@ ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
     names(master.result) <- k.titration
     master.result <- do.call(cbind, master.result) %>% as.tibble()
     return(master.result)
+}
+
+#' @title Run Principal Components Analysis (PCA)
+#' @description Wrapper for 2-dimensional PCA
+#' @param cells Tibble of cells by features
+#' @param input Vector of markers to be considered as input for the PCA method
+#' @return A tibble of cells by PC1 and PC2
+#' @export
+RunPca <- function(cells, input) {
+    pca <- prcomp(x = cells[,input])$x[,1:2] %>% as.tibble()
+    return(pca)
+}
+
+#' @title Run t-SNE
+#' @description Wrapper for 2-dimensional t-SNE
+#' @param cells Tibble of cells by features
+#' @param input Vector of markers to be considerd as input for the t-SNE method
+#' @return A tibble of cells by t-SNE1 and t-SNE2
+#' @export
+RunTsne <- function(cells, input, perp = 30) {
+    result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE)$Y %>% as.tibble()
+    names(result) <- c("bh-SNE1", "bh-SNE2")
+    return(result)
 }
 
