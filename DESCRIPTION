@@ -1,7 +1,7 @@
 Package: DQvis
 Type: Package
 Title: Visualize the quality of a low-dimensional embedding for mass 
-    cytometry datasets
+    cytometry datasets, and try popular lowd embedding methods.
 Version: 0.1.0
 Author: Tyler J Burns
 Maintainer: Tyler J Burns <burns.tyler@gmail.com>
@@ -10,7 +10,8 @@ Description: This package examines the quality of a low-dimensional embedding
     original high dimensional marker space with this cell's KNN in the 
     low-dimensional space. Comparisons can be visualized with average fidelity
     plots for different values of K, or the t-SNE maps themselves can be 
-    colored by their own fidelity. 
+    colored by their own fidelity. The package also provides wrappers for 
+    popular low dimensional embeddings.
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
@@ -20,5 +21,7 @@ Imports: Sconify,
     Rtsne,
     stats,
     tibble,
-    dplyr
-RoxygenNote: 6.0.1
+    dplyr,
+    keras,
+    umap
+RoxygenNote: 6.1.0

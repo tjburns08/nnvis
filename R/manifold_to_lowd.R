@@ -4,7 +4,9 @@
 
 #' @import Sconify
 #' @importFrom magrittr "%>%"
-#' @import Rtsne umap keras
+#' @import Rtsne
+#' @import umap
+#' @import keras
 #' @importFrom stats prcomp
 #' @import tibble
 #' @importFrom dplyr bind_cols

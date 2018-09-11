@@ -4,7 +4,7 @@
 \alias{RunTsne}
 \title{Run t-SNE}
 \usage{
-RunTsne(cells, input, perp = 30)
+RunTsne(cells, input = names(cells), perp = 30)
 }
 \arguments{
 \item{cells}{Tibble of cells by features}

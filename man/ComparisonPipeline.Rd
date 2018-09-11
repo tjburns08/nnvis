@@ -4,9 +4,13 @@
 \alias{ComparisonPipeline}
 \title{Comparison Pipeline}
 \usage{
-ComparisonPipeline(cells, input.markers, lowd.names, k.titration)
+ComparisonPipeline(orig, lowd, k.titration)
 }
 \arguments{
+\item{k.titration}{Vector of values corresponding to the number of nearest
+neighbors k to be tried. We recommend a range from very small (eg. 5) up to
+half the dataset.}
+
 \item{cells}{Tibble of cells by features that contains also the lowd
 embedding}
 
@@ -14,10 +18,6 @@ embedding}
 
 \item{lowd.names}{String of vectors corresponding to the names of the lowd
 embedding columns in your cells tibble.}
-
-\item{k.titration}{Vector of values corresponding to the number of nearest
-neighbors k to be tried. We recommend a range from very small (eg. 5) up to
-half the dataset.}
 }
 \value{
 A tibble of cells by k values, where each value is a given cell's
@@ -31,7 +31,6 @@ the orignal manifold.
 \examples{
 library(dplyr)
 k.titration <- c(10, 100)
-cells <- bind_cols(dqvis_cells, dqvis_tsne)
 tsne_names <- names(dqvis_tsne)
-ComparisonPipeline(cells, dqvis_surface_markers, tsne_names, k.titration)
+ComparisonPipeline(dqvis_cells, dqvis_tsne, tsne_names, k.titration)
 }
