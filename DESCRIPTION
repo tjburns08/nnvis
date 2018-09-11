@@ -22,6 +22,5 @@ Imports: Sconify,
     stats,
     tibble,
     dplyr,
-    keras,
-    umap
+    keras
 RoxygenNote: 6.1.0

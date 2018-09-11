@@ -5,11 +5,12 @@
 #' @import Sconify
 #' @importFrom magrittr "%>%"
 #' @import Rtsne
-#' @import umap
 #' @import keras
 #' @importFrom stats prcomp
 #' @import tibble
 #' @importFrom dplyr bind_cols
+#' @importFrom stats predict
+NULL
 
 #' @title Compare Neighborhoods
 #' @description Calculates the sum of the union of each cell's KNN, one of
@@ -50,15 +51,15 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' library(dplyr)
 #' k.titration <- c(10, 100)
 #' tsne_names <- names(dqvis_tsne)
-#' ComparisonPipeline(dqvis_cells, dqvis_tsne, tsne_names, k.titration)
+#' ComparisonPipeline(dqvis_cells, dqvis_surface_markers, dqvis_tsne, k.titration)
 #' @export
-ComparisonPipeline <- function(orig, lowd, k.titration) {
+ComparisonPipeline <- function(orig, input.markers, lowd, k.titration) {
     master.result <- lapply(k.titration, function(i) {
         # A tracker
         message(i)
 
         # The KNN generation using the fnn command from Sconify
-        nn.orig <- Fnn(cell.df = orig, input.markers = names(orig), k = i)[[1]]
+        nn.orig <- Fnn(cell.df = orig, input.markers = input.markers, k = i)[[1]]
         nn.lowd <- Fnn(cell.df = lowd, input.markers = names(lowd), k = i)[[1]]
 
         # Lowd compared to original manifold
@@ -103,18 +104,18 @@ RunTsne <- function(cells, input = names(cells), perp = 30) {
     return(result)
 }
 
-#' @title Runs UMAP on one's cells
-#' @description Wrapper for 2-dimensional UMAP
-#' @param cells TIbble of cells by features
-#' @param input Vector of markers to be considered as input for the UMAP method
-#' @return A tibble of cells by UMAP1 and UMAP2
-#' @examples
-#' RunUmap(dqvis_cells[1:1000,])
-#' @export
-RunUmap <- function(cells, input = names(cells)) {
-    result <- umap(as.matrix(cells[,input]))$layout
-    return(result)
-}
+# @title Runs UMAP on one's cells
+# @description Wrapper for 2-dimensional UMAP
+# @param cells TIbble of cells by features
+# @param input Vector of markers to be considered as input for the UMAP method
+# @return A tibble of cells by UMAP1 and UMAP2
+# @examples
+# RunUmap(dqvis_cells[1:1000,])
+# @export
+# RunUmap <- function(cells, input = names(cells)) {
+#     result <- umap::umap(as.matrix(cells[,input]))$layout
+#     return(result)
+# }
 
 #' @title Run variational autoencoder
 #' @description Wrapper for simple variational autoencoder through keras
@@ -127,6 +128,8 @@ RunUmap <- function(cells, input = names(cells)) {
 RunVae <- function(cells, input = names(cells), epochs = 50L) {
     # Code below re-purposed from:
     # https://keras.rstudio.com/articles/examples/variational_autoencoder.html
+    # Original use was for the MNIST dataset (many more dimensions)
+
     # Parameters --------------------------------------------------------------
     K <- keras::backend()
     batch_size <- 100L
