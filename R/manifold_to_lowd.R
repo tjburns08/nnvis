@@ -4,7 +4,7 @@
 
 #' @import Sconify
 #' @importFrom magrittr "%>%"
-#' @import Rtsne
+#' @import Rtsne umap keras
 #' @importFrom stats prcomp
 #' @import tibble
 #' @importFrom dplyr bind_cols
@@ -47,18 +47,17 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' @examples
 #' library(dplyr)
 #' k.titration <- c(10, 100)
-#' cells <- bind_cols(dqvis_cells, dqvis_tsne)
 #' tsne_names <- names(dqvis_tsne)
-#' ComparisonPipeline(cells, dqvis_surface_markers, tsne_names, k.titration)
+#' ComparisonPipeline(dqvis_cells, dqvis_tsne, tsne_names, k.titration)
 #' @export
-ComparisonPipeline <- function(cells, input.markers, lowd.names, k.titration) {
+ComparisonPipeline <- function(orig, lowd, k.titration) {
     master.result <- lapply(k.titration, function(i) {
         # A tracker
         message(i)
 
         # The KNN generation using the fnn command from Sconify
-        nn.orig <- Fnn(cell.df = cells, input.markers = input.markers, k = i)[[1]]
-        nn.lowd <- Fnn(cell.df = cells, input.markers = lowd.names, k = i)[[1]]
+        nn.orig <- Fnn(cell.df = orig, input.markers = names(orig), k = i)[[1]]
+        nn.lowd <- Fnn(cell.df = lowd, input.markers = names(lowd), k = i)[[1]]
 
         # Lowd compared to original manifold
         hl.compare <- CompareNeighborhoods(nn.orig, nn.lowd)/i
@@ -96,9 +95,28 @@ RunPca <- function(cells, input) {
 #' @examples
 #' RunTsne(dqvis_cells[1:1000,], dqvis_surface_markers)
 #' @export
-RunTsne <- function(cells, input, perp = 30) {
+RunTsne <- function(cells, input = names(cells), perp = 30) {
     result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE)$Y %>% as.tibble()
     names(result) <- c("bh-SNE1", "bh-SNE2")
     return(result)
+}
+
+#' @title Runs UMAP on one's cells
+#' @description Wrapper for 2-dimensional UMAP
+#' @param cells TIbble of cells by features
+#' @param input Vector of markers to be considered as input for the UMAP method
+#' @return A tibble of cells by UMAP1 and UMAP2
+RunUmap <- function(cells, input = names(cells)) {
+    result <- umap(as.matrix(cells[,input]))$layout
+    return(result)
+}
+
+#' @title Run variational autoencoder
+#' @description Wrapper for simple variational autoencoder through keras
+#' @param cells: Tibble of cells by features
+#' @param input Vector of markers to be considered as input for the VAE
+#' @return A tibble of cells by enc1 and enc2
+RunVae <- function(cells, input = names(cells), epochs = 50) {
+
 }
 
