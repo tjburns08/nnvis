@@ -123,7 +123,7 @@ RunTsne <- function(cells, input = names(cells), perp = 30) {
 #' @param input Vector of markers to be considered as input for the VAE
 #' @return A tibble of cells by enc1 and enc2
 #' @examples
-#' RunVae(cells[1:1000,])
+#' RunVae(dqvis_cells[1:1000,])
 #' @export
 RunVae <- function(cells, input = names(cells), epochs = 50L) {
     # Code below re-purposed from:
@@ -219,7 +219,7 @@ RunVae <- function(cells, input = names(cells), epochs = 50L) {
 
     # Generate latent dimensions for your data
     x_test_encoded <- predict(encoder, x_test, batch_size = batch_size)
-    colnames(x_test_encoded) <- c(paste("enc1", i, sep = "_"), paste("enc2", i, sep = "_"))
+    colnames(x_test_encoded) <- c("enc1", "enc2")
     return(list(result = x_test_encoded, encoder = encoder, batch_size = batch_size))
 }
 

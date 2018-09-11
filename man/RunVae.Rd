@@ -18,5 +18,5 @@ A tibble of cells by enc1 and enc2
 Wrapper for simple variational autoencoder through keras
 }
 \examples{
-RunVae(cells[1:1000,])
+RunVae(dqvis_cells[1:1000,])
 }
