@@ -1,7 +1,7 @@
 Package: DQvis
 Type: Package
 Title: Visualize the quality of a low-dimensional embedding for mass 
-    cytometry datasets, and try popular lowd embedding methods.
+    cytometry datasets, and try popular lowd embedding methods
 Version: 0.1.0
 Author: Tyler J Burns
 Maintainer: Tyler J Burns <burns.tyler@gmail.com>
@@ -22,5 +22,6 @@ Imports: Sconify,
     stats,
     tibble,
     dplyr,
-    keras
+    keras,
+    reticulate
 RoxygenNote: 6.1.0

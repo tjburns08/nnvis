@@ -10,6 +10,7 @@
 #' @import tibble
 #' @importFrom dplyr bind_cols
 #' @importFrom stats predict
+#' @import reticulate
 NULL
 
 #' @title Compare Neighborhoods
@@ -37,10 +38,10 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' @description Loop to generate KNN from original space, and lowd space (or
 #' any other input), and determine how well the tSNE and PCA space approximate
 #' the orignal manifold.
-#' @param cells Tibble of cells by features that contains also the lowd
+#' @param orig Tibble of cells by features that contains also the lowd
 #' embedding
 #' @param input.markers The names of surface markers of interest
-#' @param lowd.names String of vectors corresponding to the names of the lowd
+#' @param lowd String of vectors corresponding to the names of the lowd
 #' embedding columns in your cells tibble.
 #' @param k.titration Vector of values corresponding to the number of nearest
 #' neighbors k to be tried. We recommend a range from very small (eg. 5) up to
@@ -104,23 +105,24 @@ RunTsne <- function(cells, input = names(cells), perp = 30) {
     return(result)
 }
 
-# @title Runs UMAP on one's cells
-# @description Wrapper for 2-dimensional UMAP
-# @param cells TIbble of cells by features
-# @param input Vector of markers to be considered as input for the UMAP method
-# @return A tibble of cells by UMAP1 and UMAP2
-# @examples
-# RunUmap(dqvis_cells[1:1000,])
-# @export
-# RunUmap <- function(cells, input = names(cells)) {
-#     result <- umap::umap(as.matrix(cells[,input]))$layout
-#     return(result)
-# }
+#' @title Runs UMAP on one's cells
+#' @description Wrapper for 2-dimensional UMAP
+#' @param cells TIbble of cells by features
+#' @param input Vector of markers to be considered as input for the UMAP method
+#' @return A tibble of cells by UMAP1 and UMAP2
+#' @examples
+#' RunUmap(dqvis_cells[1:1000,])
+#' @export
+RunUmap <- function(cells, input = names(cells)) {
+     result <- umap::umap(as.matrix(cells[,input]))$layout
+     return(result)
+}
 
 #' @title Run variational autoencoder
 #' @description Wrapper for simple variational autoencoder through keras
-#' @param cells: Tibble of cells by features
+#' @param cells Tibble of cells by features
 #' @param input Vector of markers to be considered as input for the VAE
+#' @param epochs the number of epochs for autoencoder training.
 #' @return A tibble of cells by enc1 and enc2
 #' @examples
 #' RunVae(dqvis_cells[1:1000,])

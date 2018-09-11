@@ -7,9 +7,11 @@
 RunVae(cells, input = names(cells), epochs = 50L)
 }
 \arguments{
+\item{cells}{Tibble of cells by features}
+
 \item{input}{Vector of markers to be considered as input for the VAE}
 
-\item{cells:}{Tibble of cells by features}
+\item{epochs}{the number of epochs for autoencoder training.}
 }
 \value{
 A tibble of cells by enc1 and enc2
