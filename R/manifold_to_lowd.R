@@ -106,6 +106,9 @@ RunTsne <- function(cells, input = names(cells), perp = 30) {
 #' @param cells TIbble of cells by features
 #' @param input Vector of markers to be considered as input for the UMAP method
 #' @return A tibble of cells by UMAP1 and UMAP2
+#' @examples
+#' RunUmap(dqvis_cells[1:1000,])
+#' @export
 RunUmap <- function(cells, input = names(cells)) {
     result <- umap(as.matrix(cells[,input]))$layout
     return(result)
@@ -116,7 +119,102 @@ RunUmap <- function(cells, input = names(cells)) {
 #' @param cells: Tibble of cells by features
 #' @param input Vector of markers to be considered as input for the VAE
 #' @return A tibble of cells by enc1 and enc2
-RunVae <- function(cells, input = names(cells), epochs = 50) {
+#' @examples
+#' RunVae(cells[1:1000,])
+#' @export
+RunVae <- function(cells, input = names(cells), epochs = 50L) {
+    # Code below re-purposed from:
+    # https://keras.rstudio.com/articles/examples/variational_autoencoder.html
+    # Parameters --------------------------------------------------------------
+    K <- keras::backend()
+    batch_size <- 100L
+    original_dim <- length(input) %>% as.integer()
+    latent_dim <- 2L
+    intermediate_dim <- 8L
+    epochs <- epochs %>% as.integer()
+    epsilon_std <- 1.0
 
+    # Model definition -------------------------------------------------------
+
+    x <- layer_input(shape = c(original_dim))
+    h <- layer_dense(x, intermediate_dim, activation = "relu")
+    z_mean <- layer_dense(h, latent_dim)
+    z_log_var <- layer_dense(h, latent_dim)
+
+    sampling <- function(arg){
+        z_mean <- arg[, 1:(latent_dim)]
+        z_log_var <- arg[, (latent_dim + 1):(2 * latent_dim)]
+
+        epsilon <- k_random_normal(
+            shape = c(k_shape(z_mean)[[1]]),
+            mean=0.,
+            stddev=epsilon_std
+        )
+
+        z_mean + k_exp(z_log_var/2)*epsilon
+    }
+
+    # note that "output_shape" isn't necessary with the TensorFlow backend
+    z <- layer_concatenate(list(z_mean, z_log_var)) %>%
+        layer_lambda(sampling)
+
+    # we instantiate these layers separately so as to reuse them later
+    decoder_h <- layer_dense(units = intermediate_dim, activation = "relu")
+    decoder_mean <- layer_dense(units = original_dim, activation = "sigmoid")
+    h_decoded <- decoder_h(z)
+    x_decoded_mean <- decoder_mean(h_decoded)
+
+    # end-to-end autoencoder
+    vae <- keras_model(x, x_decoded_mean)
+
+    # encoder, from inputs to latent space
+    encoder <- keras_model(x, z_mean)
+
+    # generator, from latent space to reconstructed inputs
+    decoder_input <- layer_input(shape = latent_dim)
+    h_decoded_2 <- decoder_h(decoder_input)
+    x_decoded_mean_2 <- decoder_mean(h_decoded_2)
+    generator <- keras_model(decoder_input, x_decoded_mean_2)
+
+
+    vae_loss <- function(x, x_decoded_mean){
+        xent_loss <- (original_dim/1.0)*loss_binary_crossentropy(x, x_decoded_mean)
+        kl_loss <- -0.5*k_mean(1 + z_log_var - k_square(z_mean) - k_exp(z_log_var), axis = -1L)
+        xent_loss + kl_loss
+    }
+
+    vae %>% compile(optimizer = "rmsprop", loss = vae_loss)
+
+    # Defining the cells
+    cells <- cells[,input]
+
+    # MinMax normalization
+    cells <- apply(cells, 2, function(i) {
+        normalized = (x-min(i))/(max(i)-min(i))
+    })
+
+    # Training data and test data will be the same right here
+    x_train <- cells
+    x_test <- cells
+
+    # Initialize model
+    #InitializeVae()
+    # From above, start with fresh model
+    vae <- keras_model(x, x_decoded_mean)
+    vae %>% compile(optimizer = "rmsprop", loss = vae_loss)
+
+    # Autoencoder model
+    vae %>% fit(
+        x_train, x_train,
+        shuffle = TRUE,
+        epochs = epochs,
+        batch_size = batch_size,
+        validation_data = list(x_test, x_test)
+    )
+
+    # Generate latent dimensions for your data
+    x_test_encoded <- predict(encoder, x_test, batch_size = batch_size)
+    colnames(x_test_encoded) <- c(paste("enc1", i, sep = "_"), paste("enc2", i, sep = "_"))
+    return(list(result = x_test_encoded, encoder = encoder, batch_size = batch_size))
 }
 
