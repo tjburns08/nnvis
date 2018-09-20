@@ -1,7 +1,7 @@
 Package: nnvis
 Type: Package
-Title: Visualize the quality of a low-dimensional embedding for mass 
-    cytometry datasets, and try popular lowd embedding methods
+Title: Make KNN-based identity comparisons between different manifolds (eg. 
+original space vs t-SNE space).
 Version: 0.1.0
 Author: Tyler J Burns
 Maintainer: Tyler J Burns <burns.tyler@gmail.com>
