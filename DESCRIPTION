@@ -23,5 +23,6 @@ Imports: Sconify,
     tibble,
     dplyr,
     keras,
-    reticulate
+    reticulate,
+    umap
 RoxygenNote: 6.1.0
