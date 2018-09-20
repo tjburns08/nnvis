@@ -10,8 +10,6 @@
 #' @import tibble
 #' @importFrom dplyr bind_cols
 #' @importFrom stats predict
-#' @import reticulate
-#' @import umap
 NULL
 
 #' @title Compare Neighborhoods

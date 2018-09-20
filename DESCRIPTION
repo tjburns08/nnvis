@@ -21,8 +21,5 @@ Imports: Sconify,
     Rtsne,
     stats,
     tibble,
-    dplyr,
-    keras,
-    reticulate,
-    umap
+    dplyr
 RoxygenNote: 6.1.0
