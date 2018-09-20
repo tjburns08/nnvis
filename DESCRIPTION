@@ -1,4 +1,4 @@
-Package: DQvis
+Package: nnvis
 Type: Package
 Title: Visualize the quality of a low-dimensional embedding for mass 
     cytometry datasets, and try popular lowd embedding methods
