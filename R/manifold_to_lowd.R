@@ -5,7 +5,6 @@
 #' @import Sconify
 #' @importFrom magrittr "%>%"
 #' @import Rtsne
-#' @import keras
 #' @importFrom stats prcomp
 #' @import tibble
 #' @importFrom dplyr bind_cols
