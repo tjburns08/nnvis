@@ -7,6 +7,13 @@ representing my data." This is done by simply taking the K-nearest neighbors of 
 neighbors of the lower dimensional embedding, and comparing them for each cell. These values can be averaged across a wide 
 range of values k to assess global similarity, or visualized directly on a low-dimensional embedding to assess local similarity. 
 
+## Installation
+```
+# From GitHub
+library(devtools)
+devtools::install_github("tjburns08/nnvis")
+```
+
 ## How to use
 Get your data in a data frame or tibble format of cells x features. Run your low-dimensional embedding of interest, name
 the parameters, and merge them with your original data. Then run the ComparisonPipeline function. This will output a tibble
