@@ -20,3 +20,5 @@ the parameters, and merge them with your original data. Then run the ComparisonP
 of cells by features in the same order as the original data, with each element being the KNN similarity between original 
 space and embedded space for that particular cell, as a percentage. Now you can color a low-dimensional embedding by its 
 own efficacy!
+
+As I update this package, I'll add vignettes and visual explanations. 
