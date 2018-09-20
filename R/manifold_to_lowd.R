@@ -28,6 +28,7 @@ NULL
 #' original data matrix. The values are the number of cells within the 2 KNN
 #' that were in agreement, which in turn can be converted into a percent
 #' fidelity
+#' @export
 CompareNeighborhoods <- function(nn1, nn2) {
     result <- sapply(1:nrow(nn1), function(i) {
         length(intersect(nn1[i,], nn2[i,]))
