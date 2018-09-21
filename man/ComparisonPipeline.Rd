@@ -31,6 +31,6 @@ the orignal manifold.
 \examples{
 library(dplyr)
 k.titration <- c(10, 100)
-tsne_names <- names(dqvis_tsne)
-ComparisonPipeline(dqvis_cells, dqvis_surface_markers, dqvis_tsne, k.titration)
+tsne_names <- names(nnvis_tsne)
+ComparisonPipeline(nnvis_cells, nnvis_surface_markers, nnvis_tsne, k.titration)
 }

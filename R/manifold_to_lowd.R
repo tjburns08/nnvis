@@ -50,8 +50,8 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' @examples
 #' library(dplyr)
 #' k.titration <- c(10, 100)
-#' tsne_names <- names(dqvis_tsne)
-#' ComparisonPipeline(dqvis_cells, dqvis_surface_markers, dqvis_tsne, k.titration)
+#' tsne_names <- names(nnvis_tsne)
+#' ComparisonPipeline(nnvis_cells, nnvis_surface_markers, nnvis_tsne, k.titration)
 #' @export
 ComparisonPipeline <- function(orig, input.markers, lowd, k.titration) {
     master.result <- lapply(k.titration, function(i) {
@@ -82,7 +82,7 @@ ComparisonPipeline <- function(orig, input.markers, lowd, k.titration) {
 #' @param input Vector of markers to be considered as input for the PCA method
 #' @return A tibble of cells by PC1 and PC2
 #' @examples
-#' RunPca(dqvis_cells[1:1000,], dqvis_surface_markers)
+#' RunPca(nnvis_cells[1:1000,], nnvis_surface_markers)
 #' @export
 RunPca <- function(cells, input) {
     pca <- prcomp(x = cells[,input])$x[,1:2] %>% as.tibble()
@@ -96,7 +96,7 @@ RunPca <- function(cells, input) {
 #' @param perp The perplexity for t-SNE. Set to the CyTOF default of 30
 #' @return A tibble of cells by t-SNE1 and t-SNE2
 #' @examples
-#' RunTsne(dqvis_cells[1:1000,], dqvis_surface_markers)
+#' RunTsne(nnvis_cells[1:1000,], nnvis_surface_markers)
 #' @export
 RunTsne <- function(cells, input = names(cells), perp = 30) {
     result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE)$Y %>% as.tibble()

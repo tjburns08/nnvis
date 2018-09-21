@@ -1,6 +1,6 @@
 Package: nnvis
 Type: Package
-Title: Make KNN-based identity comparisons between different manifolds (eg. original space vs t-SNE space).
+Title: Make KNN-based identity comparisons between different manifolds (eg. original space vs t-SNE space)
 Version: 0.1.0
 Author: Tyler J Burns
 Maintainer: Tyler J Burns <burns.tyler@gmail.com>
