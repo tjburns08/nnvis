@@ -57,3 +57,44 @@ result <- ComparisonPipeline(orig = samusik_cells,
 # What the output looks like
 result
 ```
+
+Notice that the result is a tibble of cells by a KNN sizes. Each element
+accordingly is a percentage of shared KNN between original space and 
+embedded space for the specified size of K. There are two things you can 
+do from here. The first is to do simple statistics on the global output. 
+
+```{r}
+library(ggplot2)
+
+# Histograms
+qplot(result[[2]]) + geom_histogram()
+
+# Mean
+apply(result, 2, mean)
+
+# SD
+apply(result, 2, sd)
+
+```
+
+I don't know about you, but this was quite a bit less than I thought it would
+be when I first saw these numbers. The obvious question about locality leads
+me to the next thing you can do with this: visualize these percentages 
+directly on your low dimensional embedding to see what regions of the map 
+are better preserved. 
+
+```{r}
+# For K = 100
+qplot(samusik_tsne[[1]], 
+      samusik_tsne[[2]], 
+      color = result[[2]],
+      xlab = "bh-SNE1",
+      ylab = "bh-SNE2") + 
+  geom_point(size = 0.01) +
+  scale_colour_gradient(low="blue", high="red")
+
+```
+
+You can see that there are indeed local differences across the map, with the
+larger subsets being less well preserved. 
+

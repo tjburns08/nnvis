@@ -23,5 +23,6 @@ Imports: Sconify,
     dplyr
 RoxygenNote: 6.1.0
 Suggests: knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 VignetteBuilder: knitr
