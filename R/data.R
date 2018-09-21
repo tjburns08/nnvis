@@ -1,7 +1,7 @@
 #' Publically available dataset from Nikolay Samusik of the Nolan Lab,
 #' consisting of mouse bone marrow. Original data is 86,864 cells, but here
 #' it is subsampled down to 10,000. The data were asinh transformed. The
-#' Flow Repository ID FR-FCM-ZZPH.
+#' Flow Repository ID FR-FCM-ZZPH. File is called Samusik_01.fcs.
 #' @format a tibble of 10000 cells by 54 features
 "samusik_cells"
 
