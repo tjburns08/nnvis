@@ -15,7 +15,9 @@ devtools::install_github("tjburns08/nnvis", build_vignettes = TRUE)
 ```
 
 ## How to use
-Start with the example data provided (Samusik_01.fcs). See the vignette for
-code accordingly. 
+See the vignette for illustrated examples. With the global readout, you can
+compare multiple dimension reduction tools (eg. t-SNE vs UMAP). With the local
+readout, you can ask questions about whether you can/should gate a particular
+region of a low dimensional embedding. 
 
 
