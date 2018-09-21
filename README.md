@@ -15,10 +15,8 @@ devtools::install_github("tjburns08/nnvis")
 ```
 
 ## How to use
-Get your data in a data frame or tibble format of cells x features. Run your low-dimensional embedding of interest, name
-the parameters, and merge them with your original data. Then run the ComparisonPipeline function. This will output a tibble
-of cells by features in the same order as the original data, with each element being the KNN similarity between original 
-space and embedded space for that particular cell, as a percentage. Now you can color a low-dimensional embedding by its 
-own efficacy!
+Start with the example data provided (Samusik_01.fcs). See the vignette for
+code accordingly. 
 
-As I update this package, I'll add vignettes and visual explanations. 
+## Visual results:
+
