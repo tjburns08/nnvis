@@ -46,7 +46,7 @@ feature space.
 
 ```{r, message=FALSE}
 # Set a few values for k
-k_titration <- c(10, 100)
+k_titration <- c(20, 200)
 
 # The wrapper
 result <- ComparisonPipeline(orig = samusik_cells, 
@@ -84,17 +84,37 @@ directly on your low dimensional embedding to see what regions of the map
 are better preserved. 
 
 ```{r}
-# For K = 100
+
+# For K = 20
+qplot(samusik_tsne[[1]], 
+      samusik_tsne[[2]], 
+      color = result[[1]],
+      xlab = "bh-SNE1",
+      ylab = "bh-SNE2") + 
+  geom_point(size = 0.1, stroke = 0, shape = 16) +
+  scale_color_gradientn(colors = c("black", "yellow")) + 
+  theme(legend.title=element_blank())
+
+# For K = 200
 qplot(samusik_tsne[[1]], 
       samusik_tsne[[2]], 
       color = result[[2]],
       xlab = "bh-SNE1",
       ylab = "bh-SNE2") + 
-  geom_point(size = 0.01) +
-  scale_colour_gradient(low="blue", high="red")
+  geom_point(size = 0.1, stroke = 0, shape = 16) +
+  scale_color_gradientn(colors = c("black", "yellow")) + 
+  theme(legend.title=element_blank())
 
 ```
 
-You can see that there are indeed local differences across the map, with the
-larger subsets being less well preserved. 
+The color on this t-SNE map corresponds to the shared KNN. You can see that there are indeed local differences across the map, with the larger subsets being less well preserved. I would recommend exporting the data and visualizing on external
+software like FlowJo or Cytobank, as follows. 
+
+```{r, eval = FALSE}
+# Bind everything into a large tibble
+final <- bind_cols(samusik_cells, samusik_tsne, result)
+
+# Export to CSV for import into external software.
+write.csv("samusik_nn_compare.csv")
+```
 
