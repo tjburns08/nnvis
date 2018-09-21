@@ -11,7 +11,7 @@ range of values k to assess global similarity, or visualized directly on a low-d
 ```
 # From GitHub
 library(devtools)
-devtools::install_github("tjburns08/nnvis")
+devtools::install_github("tjburns08/nnvis", build_vignettes = TRUE)
 ```
 
 ## How to use
