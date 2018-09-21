@@ -18,5 +18,4 @@ devtools::install_github("tjburns08/nnvis")
 Start with the example data provided (Samusik_01.fcs). See the vignette for
 code accordingly. 
 
-## Visual results:
 

@@ -20,5 +20,5 @@ A tibble of cells by t-SNE1 and t-SNE2
 Wrapper for 2-dimensional t-SNE
 }
 \examples{
-RunTsne(nnvis_cells[1:1000,], nnvis_surface_markers)
+RunTsne(samusik_cells[1:1000,], samusik_surface_markers)
 }
