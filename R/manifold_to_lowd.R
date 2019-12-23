@@ -95,12 +95,13 @@ RunPca <- function(cells, input) {
 #' @param cells Tibble of cells by features
 #' @param input Vector of markers to be considerd as input for the t-SNE method
 #' @param perp The perplexity for t-SNE. Set to the CyTOF default of 30
+#' @param to_pca Whether or not to PCA. Default = FALSE.
 #' @return A tibble of cells by t-SNE1 and t-SNE2
 #' @examples
 #' RunTsne(samusik_cells[1:1000,], samusik_surface_markers)
 #' @export
-RunTsne <- function(cells, input = names(cells), perp = 30) {
-    result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE)$Y %>% as.tibble()
+RunTsne <- function(cells, input = names(cells), perp = 30, to_pca = FALSE) {
+    result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE, pca = to_pca)$Y %>% as.tibble()
     names(result) <- c("bh-SNE1", "bh-SNE2")
     return(result)
 }

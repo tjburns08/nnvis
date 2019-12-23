@@ -4,7 +4,7 @@
 \alias{RunTsne}
 \title{Run t-SNE}
 \usage{
-RunTsne(cells, input = names(cells), perp = 30)
+RunTsne(cells, input = names(cells), perp = 30, to_pca = FALSE)
 }
 \arguments{
 \item{cells}{Tibble of cells by features}
@@ -12,6 +12,8 @@ RunTsne(cells, input = names(cells), perp = 30)
 \item{input}{Vector of markers to be considerd as input for the t-SNE method}
 
 \item{perp}{The perplexity for t-SNE. Set to the CyTOF default of 30}
+
+\item{to_pca}{Whether or not to PCA. Default = FALSE.}
 }
 \value{
 A tibble of cells by t-SNE1 and t-SNE2
