@@ -114,7 +114,7 @@ RunTsne <- function(cells, input = names(cells), perp = 30, to_pca = FALSE) {
 #' @examples RunUMAP(samusik_cells[1:1000,], samusik_surface_markers)
 #' @export
 RunUMAP <- function(cells, input = names(cells)) {
-    result <- umap(cells[,input])$layout
+    result <- umap(cells[,input])$layout %>% as_tibble()
     names(result) <- c("umap1", "umap2")
     return(result)
 }
