@@ -38,10 +38,10 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' @description Loop to generate KNN from original space, and lowd space (or
 #' any other input), and determine how well the tSNE and PCA space approximate
 #' the orignal manifold.
-#' @param orig Tibble of cells by features that contains also the lowd
-#' embedding
-#' @param input.markers The names of surface markers of interest
-#' @param lowd String of vectors corresponding to the names of the lowd
+#' @param orig Tibble of cells by features
+#' @param input_markers Vector of strings of names of surface markers of interest
+#' @param lowd Tibble of dimr output
+#' @param lowd_markers Vector of strings corresponding to the names of the lowd
 #' embedding columns in your cells tibble.
 #' @param k.titration Vector of values corresponding to the number of nearest
 #' neighbors k to be tried. We recommend a range from very small (eg. 5) up to
@@ -54,7 +54,7 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' tsne_names <- names(samusik_tsne)
 #' ComparisonPipeline(samusik_cells, samusik_surface_markers, samusik_tsne, k.titration)
 #' @export
-ComparisonPipeline <- function(orig, input.markers, lowd, k.titration) {
+ComparisonPipeline <- function(orig, lowd, input_markers, k.titration) {
     master.result <- lapply(k.titration, function(i) {
         # A tracker
         message(i)

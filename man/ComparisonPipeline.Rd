@@ -4,20 +4,21 @@
 \alias{ComparisonPipeline}
 \title{Comparison Pipeline}
 \usage{
-ComparisonPipeline(orig, input.markers, lowd, k.titration)
+ComparisonPipeline(orig, lowd, input_markers, k.titration)
 }
 \arguments{
-\item{orig}{Tibble of cells by features that contains also the lowd
-embedding}
+\item{orig}{Tibble of cells by features}
 
-\item{input.markers}{The names of surface markers of interest}
+\item{lowd}{Tibble of dimr output}
 
-\item{lowd}{String of vectors corresponding to the names of the lowd
-embedding columns in your cells tibble.}
+\item{input_markers}{Vector of strings of names of surface markers of interest}
 
 \item{k.titration}{Vector of values corresponding to the number of nearest
 neighbors k to be tried. We recommend a range from very small (eg. 5) up to
 half the dataset.}
+
+\item{lowd_markers}{Vector of strings corresponding to the names of the lowd
+embedding columns in your cells tibble.}
 }
 \value{
 A tibble of cells by k values, where each value is a given cell's
