@@ -9,6 +9,7 @@
 #' @import tibble
 #' @importFrom dplyr bind_cols
 #' @importFrom stats predict
+#' @import umap
 NULL
 
 #' @title Compare Neighborhoods
@@ -101,6 +102,19 @@ RunPca <- function(cells, input) {
 RunTsne <- function(cells, input = names(cells), perp = 30) {
     result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE)$Y %>% as.tibble()
     names(result) <- c("bh-SNE1", "bh-SNE2")
+    return(result)
+}
+
+#' @title Run UMAP
+#' @description Wrapper for 2-dimensional UMAP
+#' @param cells Tibble of cells by features
+#' @param input Vector of markers to be considered as input for UMAP method
+#' @return A tibble of cells by UMAP1 and UMAP2
+#' @examples RunUMAP(samusik_cells[1:1000,], samusik_surface_markers)
+#' @export
+RunUMAP <- function(cells, input = names(cells)) {
+    result <- umap(cells[,input])$layout
+    names(result) <- c("umap1", "umap2")
     return(result)
 }
 
