@@ -60,7 +60,7 @@ ComparisonPipeline <- function(orig, lowd, input_markers, k.titration) {
         message(i)
 
         # The KNN generation using the fnn command from Sconify
-        nn.orig <- Fnn(cell.df = orig, input.markers = input.markers, k = i)[[1]]
+        nn.orig <- Fnn(cell.df = orig, input.markers = input_markers, k = i)[[1]]
         nn.lowd <- Fnn(cell.df = lowd, input.markers = names(lowd), k = i)[[1]]
 
         # Lowd compared to original manifold
