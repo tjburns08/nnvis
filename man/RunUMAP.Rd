@@ -4,12 +4,14 @@
 \alias{RunUMAP}
 \title{Run UMAP}
 \usage{
-RunUMAP(cells, input = names(cells))
+RunUMAP(cells, input = names(cells), nn = 15)
 }
 \arguments{
 \item{cells}{Tibble of cells by features}
 
 \item{input}{Vector of markers to be considered as input for UMAP method}
+
+\item{nn}{Number of nearest neighbors to use in algorithm}
 }
 \value{
 A tibble of cells by UMAP1 and UMAP2

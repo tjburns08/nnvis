@@ -110,11 +110,12 @@ RunTsne <- function(cells, input = names(cells), perp = 30, to_pca = FALSE) {
 #' @description Wrapper for 2-dimensional UMAP
 #' @param cells Tibble of cells by features
 #' @param input Vector of markers to be considered as input for UMAP method
+#' @param nn Number of nearest neighbors to use in algorithm
 #' @return A tibble of cells by UMAP1 and UMAP2
 #' @examples RunUMAP(samusik_cells[1:1000,], samusik_surface_markers)
 #' @export
-RunUMAP <- function(cells, input = names(cells)) {
-    result <- umap(cells[,input])$layout %>% as_tibble()
+RunUMAP <- function(cells, input = names(cells), nn = 15) {
+    result <- umap::umap(cells[,input], n_neighbors = nn)$layout %>% as_tibble()
     names(result) <- c("umap1", "umap2")
     return(result)
 }
