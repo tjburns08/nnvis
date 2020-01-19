@@ -43,7 +43,7 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' @param lowd Tibble of dimr output
 #' @param lowd_markers Vector of strings corresponding to the names of the lowd
 #' embedding columns in your cells tibble.
-#' @param k.titration Vector of values corresponding to the number of nearest
+#' @param k_titration Vector of values corresponding to the number of nearest
 #' neighbors k to be tried. We recommend a range from very small (eg. 5) up to
 #' half the dataset.
 #' @return A tibble of cells by k values, where each value is a given cell's
@@ -54,27 +54,49 @@ CompareNeighborhoods <- function(nn1, nn2) {
 #' tsne_names <- names(samusik_tsne)
 #' ComparisonPipeline(samusik_cells, samusik_surface_markers, samusik_tsne, k.titration)
 #' @export
-ComparisonPipeline <- function(orig, lowd, input_markers, k.titration) {
-    master.result <- lapply(k.titration, function(i) {
+ComparisonPipeline <- function(orig, lowd, input_markers, k_titration) {
+
+    # Edge case for single k value
+    if(length(k_titration) == 1) {
+        nn_orig <- Fnn(cell.df = orig, input.markers = input_markers, k = k_titration)[[1]]
+        nn_lowd <- Fnn(cell.df = lowd, input.markers = names(lowd), k = k_titration)[[1]]
+        hl_compare <- CompareNeighborhoods(nn_orig, nn_lowd)/k_titration
+        result <- as_tibble(hl_compare)
+        names(result) <- k_titration
+        return(result)
+    }
+
+    # Make the biggest value of K first
+    k_titration <- sort(k_titration, decreasing = TRUE)
+
+    # The KNN generation using the fnn command from Sconify
+    nn_orig <- Fnn(cell.df = orig, input.markers = input_markers, k = k_titration[1])[[1]]
+    nn_lowd <- Fnn(cell.df = lowd, input.markers = names(lowd), k = k_titration[1])[[1]]
+
+    # Lowd compared to original manifold
+    hl_compare <- CompareNeighborhoods(nn_orig, nn_lowd)/k_titration[1]
+    hl_compare <- as_tibble(hl_compare)
+    names(hl_compare) <- k_titration[1]
+    # Return a tibble that has the percent average shared KNN for
+    #   lowd versus original space
+
+    # So there's no need to recompute KNN
+    master_result <- lapply(k_titration[-1], function(i) {
         # A tracker
         message(i)
-
-        # The KNN generation using the fnn command from Sconify
-        nn.orig <- Fnn(cell.df = orig, input.markers = input_markers, k = i)[[1]]
-        nn.lowd <- Fnn(cell.df = lowd, input.markers = names(lowd), k = i)[[1]]
-
-        # Lowd compared to original manifold
-        hl.compare <- CompareNeighborhoods(nn.orig, nn.lowd)/i
-
-        # Return a tibble that has the percent average shared KNN for
-        #   lowd versus original space
-        return(hl.compare)
+        nn_orig <- nn_orig[,1:i]
+        nn_lowd <- nn_lowd[,1:i]
+        hl_compare <- CompareNeighborhoods(nn_orig, nn_lowd)/i
+        return(hl_compare)
     })
 
     # Turn this list into a tibble of cells by neighborhood size k
-    names(master.result) <- k.titration
-    master.result <- do.call(cbind, master.result) %>% as.tibble()
-    return(master.result)
+    names(master_result) <- k_titration[-1]
+    master_result <- do.call(cbind, master_result) %>% as_tibble()
+
+    # Create the final result and flip the columns back to original k titration
+    master_result <- bind_cols(hl_compare, master_result) %>% .[,order(ncol(.):1)]
+    return(master_result)
 }
 
 #' @title Run Principal Components Analysis (PCA)
