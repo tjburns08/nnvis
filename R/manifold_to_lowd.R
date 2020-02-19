@@ -123,7 +123,7 @@ RunPca <- function(cells, input) {
 #' RunTsne(samusik_cells[1:1000,], samusik_surface_markers)
 #' @export
 RunTsne <- function(cells, input = names(cells), perp = 30, to_pca = FALSE) {
-    result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE, pca = to_pca)$Y %>% as.tibble()
+    result <- Rtsne(X = cells[,input], perplexity = perp, verbose = TRUE, pca = to_pca, check_duplicates = FALSE)$Y %>% as.tibble()
     names(result) <- c("bh-SNE1", "bh-SNE2")
     return(result)
 }
