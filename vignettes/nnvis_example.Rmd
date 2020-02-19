@@ -50,9 +50,9 @@ k_titration <- c(20, 200)
 
 # The wrapper
 result <- ComparisonPipeline(orig = samusik_cells, 
-                             input.markers = samusik_surface_markers, 
+                             input_markers = samusik_surface_markers, 
                              lowd = samusik_tsne,
-                             k.titration = k_titration)
+                             k_titration = k_titration)
 
 # What the output looks like
 result
