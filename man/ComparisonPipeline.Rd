@@ -4,7 +4,7 @@
 \alias{ComparisonPipeline}
 \title{Comparison Pipeline}
 \usage{
-ComparisonPipeline(orig, lowd, input_markers, k.titration)
+ComparisonPipeline(orig, lowd, input_markers, k_titration)
 }
 \arguments{
 \item{orig}{Tibble of cells by features}
@@ -13,7 +13,7 @@ ComparisonPipeline(orig, lowd, input_markers, k.titration)
 
 \item{input_markers}{Vector of strings of names of surface markers of interest}
 
-\item{k.titration}{Vector of values corresponding to the number of nearest
+\item{k_titration}{Vector of values corresponding to the number of nearest
 neighbors k to be tried. We recommend a range from very small (eg. 5) up to
 half the dataset.}
 
